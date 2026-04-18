@@ -33,6 +33,7 @@ from manuskript.ui.helpLabel import helpLabel
 from manuskript.ui.mainWindow import Ui_MainWindow
 from manuskript.ui.tools.frequencyAnalyzer import frequencyAnalyzer
 from manuskript.ui.tools.targets import TargetsDialog
+from manuskript.ui.tools.aiPanel import AiPanel
 from manuskript.ui.views.outlineDelegates import outlineCharacterDelegate
 from manuskript.ui.views.plotDelegate import plotDelegate
 from manuskript.ui.views.MDEditView import MDEditView
@@ -176,6 +177,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Main Menu:: Tool
         self.actToolFrequency.triggered.connect(self.frequencyAnalyzer)
         self.actToolTargets.triggered.connect(self.sessionTargets)
+        self.actToolAI.triggered.connect(self.toggleAiPanel)
         self.actSupport.triggered.connect(self.support)
         self.actLocateLog.triggered.connect(self.locateLogFile)
         self.actAbout.triggered.connect(self.about)
@@ -1880,6 +1882,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.td = TargetsDialog(self)
         self.td.show()
         self.centerChildWindow(self.td)
+
+    def toggleAiPanel(self):
+        """Show or hide the AI Assistant dock panel."""
+        if not hasattr(self, "_aiDock"):
+            panel = AiPanel(main_window=self)
+            dock = QDockWidget(self.tr("AI Assistant"), self)
+            dock.setObjectName("aiAssistantDock")
+            dock.setWidget(panel)
+            dock.setAllowedAreas(Qt.RightDockWidgetArea | Qt.LeftDockWidgetArea | Qt.BottomDockWidgetArea)
+            self.addDockWidget(Qt.RightDockWidgetArea, dock)
+            self._aiDock = dock
+
+        self._aiDock.setVisible(not self._aiDock.isVisible())
 
     ###############################################################################
     # VIEW MENU
