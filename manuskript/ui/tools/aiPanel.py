@@ -351,9 +351,10 @@ class AiPanel(QWidget):
     def _accept_result(self) -> None:
         QMessageBox.information(
             self,
-            "Changes accepted",
-            "The agent's changes have been written to the project files.\n"
-            "Reloading the project is recommended to see the updates.",
+            "Changes applied",
+            "The agent has already written changes to the project files during execution.\n\n"
+            "Reload the project (File → Close Project, then reopen it) to see the "
+            "updates reflected in the editor.",
         )
         self._btn_accept.setEnabled(False)
         self._btn_discard.setEnabled(False)

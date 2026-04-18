@@ -376,8 +376,10 @@ def _indent_xml(elem, level: int = 0) -> None:
             elem.tail = indent
         for child in elem:
             _indent_xml(child, level + 1)
-        if not child.tail or not child.tail.strip():  # type: ignore[reportPossiblyUnbound]
-            child.tail = indent  # type: ignore[reportPossiblyUnbound]
+        # Fix the last child's tail so the closing tag is indented correctly.
+        # elem[-1] is safe here because we are inside `if len(elem)`.
+        if not elem[-1].tail or not elem[-1].tail.strip():
+            elem[-1].tail = indent
     else:
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = indent

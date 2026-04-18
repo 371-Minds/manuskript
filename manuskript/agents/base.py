@@ -8,7 +8,7 @@ import os
 import subprocess
 import sys
 from contextlib import asynccontextmanager
-from typing import AsyncIterator
+from typing import AsyncIterator, Tuple
 
 from google.adk.agents import Agent
 from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset, StdioServerParameters
@@ -41,8 +41,8 @@ async def agent_with_mcp(
     project_path: str,
     name: str,
     instruction: str,
-    model: str | None = None,
-) -> AsyncIterator[tuple[Agent, MCPToolset]]:
+    model: "str | None" = None,
+) -> AsyncIterator[Tuple[Agent, MCPToolset]]:
     """
     Async context manager that creates an ADK Agent with all Manuskript MCP
     tools loaded.  Yields (agent, toolset) and cleans up on exit.
