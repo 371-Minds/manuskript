@@ -118,6 +118,18 @@ viewMode = "fiction"  # simple, fiction
 saveToZip = False
 dontShowDeleteWarning = False
 
+# AI / MCP settings
+# The API key is intentionally NOT persisted here — it must be set via the
+# MANUSKRIPT_AI_KEY (or GOOGLE_API_KEY) environment variable so it is never
+# committed to version control or included in a shared project file.
+ai = {
+    "provider": "google",       # "google" | "openai" | "anthropic" | "local"
+    "model": "gemini-2.0-flash",
+    "mcp_transport": "stdio",   # "stdio" | "sse"
+    "mcp_port": 8765,
+    "consent_given": False,     # opt-in: user must confirm before data leaves device
+}
+
 def initDefaultValues():
     """
     Load some default values based on system's settings.
@@ -144,7 +156,7 @@ def save(filename=None, protocol=None):
     global spellcheck, dict, corkSliderFactor, viewSettings, corkSizeFactor, folderView, lastTab, openIndexes, \
            progressChars, autoSave, autoSaveDelay, saveOnQuit, autoSaveNoChanges, autoSaveNoChangesDelay, outlineViewColumns, \
            corkBackground, corkStyle, fullScreenTheme, defaultTextType, textEditor, revisions, frequencyAnalyzer, viewMode, \
-           saveToZip, dontShowDeleteWarning, fullscreenSettings, tooltipStyle
+           saveToZip, dontShowDeleteWarning, fullscreenSettings, tooltipStyle, ai
 
     allSettings = {
         "viewSettings": viewSettings,
@@ -175,6 +187,7 @@ def save(filename=None, protocol=None):
         "saveToZip": saveToZip,
         "dontShowDeleteWarning": dontShowDeleteWarning,
         "tooltipStyle": tooltipStyle,
+        "ai": ai,
     }
 
     #pp=pprint.PrettyPrinter(indent=4, compact=False)
@@ -355,3 +368,11 @@ def load(string, fromString=False, protocol=None):
         if "useSystemDefaultsForTooltips" not in loaded_tooltip_style:
             loaded_tooltip_style["useSystemDefaultsForTooltips"] = True
         tooltipStyle = loaded_tooltip_style
+
+    if "ai" in allSettings:
+        global ai
+        loaded_ai = allSettings["ai"]
+        # Merge with defaults so new keys added in future versions don't break
+        ai.update(loaded_ai)
+        # Never persist the API key — always read from environment
+        ai.pop("api_key", None)

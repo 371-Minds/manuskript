@@ -47,6 +47,28 @@ and automatic save in
 
 [Download](https://www.theologeek.ch/manuskript/download) and install Manuskript today.
 
+## AI Features
+
+Manuskript includes an optional **MCP (Model Context Protocol) server** and
+a set of **Google ADK agents** that let any MCP-compatible AI client (Claude,
+Cursor, Google ADK…) read and modify your project autonomously.
+
+**Agents available:**
+
+| Agent | What it does |
+|-------|-------------|
+| Writing Continuation | Continues a scene in the POV character's voice |
+| Character Development | Fleshes out a new character from a description |
+| Plot Consistency | Finds orphaned scenes, unresolved plots, and character gaps |
+| World Builder | Extracts named entities from a scene and creates world entries |
+| Style & Consistency | Reviews scenes for POV shifts, repeated phrases, and more |
+
+There is also an **AI Assistant** dock panel in the app UI
+(**Tools → AI Assistant**, shortcut `Ctrl+Alt+A`).
+
+See **[docs/ai-agents.md](docs/ai-agents.md)** for full documentation,
+quick-start instructions, and configuration options.
+
 ## HowTo's
 
 See the [Wiki](https://github.com/olivierkes/manuskript/wiki) for more
